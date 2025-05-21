@@ -183,9 +183,10 @@ final class CollaboratorController extends AbstractController
         }
     }
 
-    #[Route('/collaborator/{id}', name: 'app_collaborator_delete', methods: ['DELETE'])]
-    public function deleteCollaborator(int $id): JsonResponse
+    #[Route('/collaborator/delete', name: 'app_collaborator_delete', methods: ['DELETE'])]
+    public function deleteCollaborator(Request $request): JsonResponse
     {
+        $id = $request->request->get('id');
         try {
             $this->collaboratorService->deleteCollaborator($id);
             return $this->json(['message' => 'Collaborateur supprimé avec succès.']);

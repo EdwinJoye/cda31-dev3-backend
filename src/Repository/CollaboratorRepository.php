@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Collaborator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -13,9 +14,11 @@ use Doctrine\ORM\NoResultException;
  */
 class CollaboratorRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $em;
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, Collaborator::class);
+        $this->em = $em;
     }
 
     /**
@@ -106,8 +109,8 @@ class CollaboratorRepository extends ServiceEntityRepository
 
     public function save(Collaborator $collaborator): void
     {
-        $this->_em->persist($collaborator);
-        $this->_em->flush();
+        $this->em->persist($collaborator);
+        $this->em->flush();
     }
 
     public function update(int|string $id, Collaborator $collaborator): void
@@ -117,7 +120,7 @@ class CollaboratorRepository extends ServiceEntityRepository
         $existing = $this->find($id);
         if ($existing) {
             // Copier les propriétés si besoin, ou juste flush si déjà modifiées
-            $this->_em->flush();
+            $this->em->flush();
         }
     }
 
@@ -125,8 +128,8 @@ class CollaboratorRepository extends ServiceEntityRepository
     {
         $collaborator = $this->find($id);
         if ($collaborator) {
-            $this->_em->remove($collaborator);
-            $this->_em->flush();
+            $this->em->remove($collaborator);
+            $this->em->flush();
         }
     }
 }
