@@ -129,6 +129,7 @@ final class CollaboratorController extends AbstractController
             // À adapter selon les propriétés de l'entité
             $collaborator->setFirstname($data['firstname'] ?? '');
             $collaborator->setLastname($data['lastname'] ?? '');
+            $collaborator->setGender($data['gender'] ?? '');
             $collaborator->setEmail($data['email'] ?? '');
             $collaborator->setPassword($data['password'] ?? '');
             $collaborator->setPhone($data['phone'] ?? null);
@@ -160,6 +161,7 @@ final class CollaboratorController extends AbstractController
             // Mise à jour des propriétés (à adapter selon tes besoins)
             if (isset($data['firstname'])) $collaborator->setFirstname($data['firstname']);
             if (isset($data['lastname'])) $collaborator->setLastname($data['lastname']);
+            if (isset($data['gender'])) $collaborator->setGender($data['gender']);
             if (isset($data['email'])) $collaborator->setEmail($data['email']);
             if (isset($data['password'])) $collaborator->setPassword($data['password']);
             if (isset($data['phone'])) $collaborator->setPhone($data['phone']);

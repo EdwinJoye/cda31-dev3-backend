@@ -46,6 +46,9 @@ class Collaborator
     #[ORM\Column(type: "boolean")]
     private bool $isAdmin = false;
 
+    #[ORM\Column(length: 255)]
+    private ?string $gender = null;
+
     public function setId(int $id): self
     {
         $this->id = $id;
@@ -187,5 +190,17 @@ class Collaborator
     public function isAdministrator(): bool
     {
         return $this->isAdmin();
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(string $gender): static
+    {
+        $this->gender = $gender;
+
+        return $this;
     }
 }

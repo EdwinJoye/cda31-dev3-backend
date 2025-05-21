@@ -18,7 +18,7 @@ class CollaboratorFixtures extends Fixture
     }
     public function load(ObjectManager $manager): void
     {
-        $json = file_get_contents('../data/users.json');
+        $json = file_get_contents(__DIR__ . '/../data/users.json');
         $users = json_decode($json, true);
 
         foreach($users as $user){
@@ -26,6 +26,7 @@ class CollaboratorFixtures extends Fixture
                 ->setId((int) $user["id"])
                 ->setFirstname($user["firstname"])
                 ->setLastname($user["lastname"])
+                ->setGender($user["gender"])
                 ->setEmail($user["email"])
                 ->setPassword($user["password"])
                 ->setPhone($user["phone"] ?? null)
