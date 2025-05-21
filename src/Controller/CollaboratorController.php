@@ -149,14 +149,15 @@ final class CollaboratorController extends AbstractController
         }
     }
 
-    #[Route('/collaborator/{id}', name: 'app_collaborator_update', methods: ['PUT'])]
-    public function updateCollaborator(Request $request, int $id): JsonResponse
+    #[Route('/collaborator/update', name: 'app_collaborator_update', methods: ['PUT'])]
+    public function updateCollaborator(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         if (!$data) {
             return $this->json(['error' => 'Données manquantes pour la mise à jour.'], 400);
         }
         try {
+            $id = $request->request->get('id');
             $collaborator = $this->collaboratorService->getById($id);
             // Mise à jour des propriétés (à adapter selon tes besoins)
             if (isset($data['firstname'])) $collaborator->setFirstname($data['firstname']);
