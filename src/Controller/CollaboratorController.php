@@ -146,7 +146,7 @@ final class CollaboratorController extends AbstractController
             $collaborator->setIsAdmin($data['isAdmin'] ?? false);
 
             $this->collaboratorService->createCollaborator($collaborator);
-            return $this->json(['message' => 'Collaborateur créé avec succès.']);
+            return $this->json(['collaborateur' => $collaborator]);
         } catch (InvalidArgumentException $e) {
             return $this->json(['error' => $e->getMessage()], 400);
         } catch (\Exception $e) {
