@@ -1,0 +1,14 @@
+nelmio_cors:
+    defaults:
+        origin_regex: true
+        allow_origin: ['%env(CORS_ALLOW_ORIGIN)%']
+        allow_methods: ['POST', 'GET', 'OPTIONS', 'PUT', 'PATCH', 'DELETE']
+        allow_headers: ['Content-Type', 'Authorization', 'X-Requested-With']
+        expose_headers: ['Link']
+        max_age: 3600
+    paths:
+        '^/':  # Appliquer CORS à toutes les routes
+            allow_origin: ['*']  # Ou '%env(CORS_ALLOW_ORIGIN)%' selon ta config
+            allow_methods: ['POST', 'GET', 'OPTIONS', 'PUT', 'PATCH', 'DELETE']
+            allow_headers: ['Content-Type', 'Authorization', 'X-Requested-With']
+            max_age: 3600

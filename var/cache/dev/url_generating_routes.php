@@ -4,6 +4,7 @@
 
 return [
     '_preview_error' => [['code', '_format'], ['_controller' => 'error_controller::preview', '_format' => 'html'], ['code' => '\\d+'], [['variable', '.', '[^/]++', '_format', true], ['variable', '/', '\\d+', 'code', true], ['text', '/_error']], [], [], []],
+    'app.swagger' => [[], ['_controller' => 'nelmio_api_doc.controller.swagger'], [], [['text', '/api/doc.json']], [], [], []],
     'app_all_collaborator' => [[], ['_controller' => 'App\\Controller\\CollaboratorController::allCollaborator'], [], [['text', '/all/collaborators']], [], [], []],
     'app_collaborator_id' => [[], ['_controller' => 'App\\Controller\\CollaboratorController::collaboratorById'], [], [['text', '/collaborator/id']], [], [], []],
     'app_collaborator_email' => [[], ['_controller' => 'App\\Controller\\CollaboratorController::collaboratorByEmail'], [], [['text', '/collaborator/email']], [], [], []],
