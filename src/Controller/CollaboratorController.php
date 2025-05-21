@@ -90,10 +90,15 @@ final class CollaboratorController extends AbstractController
     #[Route('/collaborators/name', name: 'app_collaborator_by_name', methods: ['POST'])]
     public function collaboratorsByName(Request $request): JsonResponse
     {
-        $name = $request->request->get('name');
-        if (!$name) {
+         $data = json_decode($request->getContent(), true);
+    
+        // Vérifier si les données sont présentes et contiennent le champ lastname
+        if (!$data || !isset($data['lastname']) || empty($data['lastname'])) {
             return $this->json(['error' => 'Nom manquant dans la requête.'], 400);
         }
+        
+        // Récupérer le nom depuis les données JSON décodées
+        $name = $data['lastname'];
         try {
             $collaborators = $this->collaboratorService->filterColaboratorByName($name);
             return $this->json(['collaborators' => $collaborators]);
