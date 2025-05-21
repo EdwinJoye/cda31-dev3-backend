@@ -117,10 +117,10 @@ final class CollaboratorController extends AbstractController
         }
     }
 
-    #[Route('/collaborator', name: 'app_collaborator_create', methods: ['POST'])]
+    #[Route('/collaborator/create', name: 'app_collaborator_create', methods: ['POST'])]
     public function createCollaborator(Request $request): JsonResponse
     {
-        $data = $request->getContent();
+        $data = json_decode($request->getContent(), true);
         if (!$data) {
             return $this->json(['error' => 'Données manquantes pour la création.'], 400);
         }
@@ -184,10 +184,9 @@ final class CollaboratorController extends AbstractController
         }
     }
 
-    #[Route('/collaborator/delete', name: 'app_collaborator_delete', methods: ['DELETE'])]
-    public function deleteCollaborator(Request $request): JsonResponse
+    #[Route('/collaborator/delete/{id}', name: 'app_collaborator_delete', methods: ['DELETE'])]
+    public function deleteCollaborator(int $id): JsonResponse
     {
-        $id = $request->request->get('id');
         try {
             $this->collaboratorService->deleteCollaborator($id);
             return $this->json(['message' => 'Collaborateur supprimé avec succès.']);
