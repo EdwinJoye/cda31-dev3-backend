@@ -50,7 +50,15 @@ final class AuthController extends AbstractController
             return $this->json(['error' => $e->getMessage()], 500);
         }
 
-        // public function
+    }
+    #[Route('/login', name: 'app_login')]
+    public function login(Request $request)
+    {
+        $email = $request->request->get('email');
+        $password = $request->request->get('password');
+
+        $user = $this->authService->loginUser();
+        return $this->json($user ); 
     }
 }
 
