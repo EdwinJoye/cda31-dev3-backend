@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\CollaboratorRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: CollaboratorRepository::class)]
-class Collaborator
+class Collaborator implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -96,7 +98,9 @@ class Collaborator
     {
         return $this->password;
     }
-
+    /**
+         * @return string the hashed password for this user
+     */
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -202,5 +206,24 @@ class Collaborator
         $this->gender = $gender;
 
         return $this;
+    }
+
+    public function getRoles(): array
+    {
+        if ($this->isAdministrator()) {
+            return ['ROLE_ADMIN'];
+        }else{
+            return ['ROLE_USER'];
+        }
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->getEmail();
+    }
+
+    public function eraseCredentials(): void
+    {
+        
     }
 }

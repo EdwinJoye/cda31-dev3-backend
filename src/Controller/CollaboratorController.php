@@ -9,15 +9,18 @@ use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class CollaboratorController extends AbstractController
 {
     private CollaboratorService $collaboratorService;
+    private UserPasswordHasherInterface $passwordHasher;
 
-    public function __construct(CollaboratorService $collaboratorService)
+    public function __construct(CollaboratorService $collaboratorService, UserPasswordHasherInterface $passwordHasher)
     {
         $this->collaboratorService = $collaboratorService;
+        $this->passwordHasher = $passwordHasher;
     }
 
     #[Route('/all/collaborators', name: 'app_all_collaborator', methods: ['GET'])]
@@ -131,12 +134,17 @@ final class CollaboratorController extends AbstractController
         }
         try {
             $collaborator = new Collaborator();
+
+            $plainPassword = $data['password'] ?? '';
+            $hashedPassword = $this->passwordHasher->hashPassword($collaborator, $plainPassword);
+            $collaborator->setPassword($hashedPassword);
+
             // À adapter selon les propriétés de l'entité
             $collaborator->setFirstname($data['firstname'] ?? '');
             $collaborator->setLastname($data['lastname'] ?? '');
             $collaborator->setGender($data['gender'] ?? '');
             $collaborator->setEmail($data['email'] ?? '');
-            $collaborator->setPassword($data['password'] ?? '');
+            $collaborator->setPassword($hashedPassword);
             $collaborator->setPhone($data['phone'] ?? null);
             $collaborator->setBirthdate(isset($data['birthdate']) ? new \DateTime($data['birthdate']) : null);
             $collaborator->setCity($data['city'] ?? null);
