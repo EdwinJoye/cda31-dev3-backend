@@ -51,13 +51,21 @@ final class AuthController extends AbstractController
         }
 
     }
+    #[Route('/me', name: 'app_me')]
+    public function me(Request $request)
+    {
+
+        $user = $this->authService->getMe();
+        return $this->json($user ); 
+    }
+    
     #[Route('/login', name: 'app_login')]
     public function login(Request $request)
     {
         $email = $request->request->get('email');
         $password = $request->request->get('password');
 
-        $user = $this->authService->loginUser();
+        $user = $this->authService->loginUser($email, $password);
         return $this->json($user ); 
     }
 }
