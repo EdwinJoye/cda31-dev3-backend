@@ -29,24 +29,15 @@ class AuthService
         $this->collaboratorRepository->save($collaborator);
     }
 
-    public function getMe()
+    public function loginUser(string $email, string $password)
     {
-        $token = $this->tokenStorage->getToken();
-        if ($token && $token->getUser() instanceof UserInterface) {
-            $email = $token->getUser()->getUserIdentifier();
-            return $this->collaboratorRepository->findByEmail($email);
+        $collaborator = $this->collaboratorRepository->findByEmail($email);
+        if ($collaborator) {
+            // Vérifie le mot de passe hashé
+            if ($this->userPasswordHasher->isPasswordValid($collaborator, $password)) {
+                return $collaborator;
+            }
         }
         return null;
     }
-    public function loginUser(string $email, string $password)
-{
-    $collaborator = $this->collaboratorRepository->findByEmail($email);
-    if ($collaborator) {
-        // Vérifie le mot de passe hashé
-        if ($this->userPasswordHasher->isPasswordValid($collaborator, $password)) {
-            return $collaborator;
-        }
-    }
-    return null;
-}
 }

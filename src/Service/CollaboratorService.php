@@ -53,33 +53,6 @@ class CollaboratorService
         return $collaborator;
     }
 
-    public function filterColaboratorByCategory(string $category): array
-    {
-        try {
-            return $this->collaboratorRepository->findByFiltersCategory($category);
-        } catch (Exception $e) {
-            throw new Exception("Erreur lors du filtrage par catégorie : " . $e->getMessage());
-        }
-    }
-
-    public function filterColaboratorByName(string $name): array
-    {
-        try {
-            return $this->collaboratorRepository->findByFiltersName($name);
-        } catch (Exception $e) {
-            throw new Exception("Erreur lors du filtrage par nom : " . $e->getMessage());
-        }
-    }
-
-    public function filterColaboratorByText(array $text): array
-    {
-        try {
-            return $this->collaboratorRepository->findByFiltersText($text);
-        } catch (Exception $e) {
-            throw new Exception("Erreur lors du filtrage par texte : " . $e->getMessage());
-        }
-    }
-
     public function createCollaborator(object $data)
     {
         try {
@@ -102,7 +75,7 @@ class CollaboratorService
             if (!$collaborator) {
                 throw new EntityNotFoundException("Collaborateur avec l'ID $id non trouvé pour la mise à jour.");
             }
-            return $this->collaboratorRepository->update($id, $data);
+            $this->collaboratorRepository->update($id, $data);
         } catch (Exception $e) {
             throw new Exception("Erreur lors de la mise à jour du collaborateur : " . $e->getMessage());
         }

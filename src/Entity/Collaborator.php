@@ -6,6 +6,7 @@ use App\Repository\CollaboratorRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: CollaboratorRepository::class)]
 class Collaborator implements UserInterface, PasswordAuthenticatedUserInterface
@@ -25,6 +26,7 @@ class Collaborator implements UserInterface, PasswordAuthenticatedUserInterface
     private string $email;
 
     #[ORM\Column(type: "string")]
+    #[Ignore]
     private string $password;
 
     #[ORM\Column(type: "string", length: 20, nullable: true)]
