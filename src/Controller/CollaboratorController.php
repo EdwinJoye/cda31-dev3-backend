@@ -35,19 +35,22 @@ final class CollaboratorController extends AbstractController
     }
 
     #[Route('/collaborator/id', name: 'app_collaborator_id', methods: ['POST'])]
-    public function collaboratorById(Request $request): JsonResponse
-    {
-        $id = $request->request->get('id');
-        if (!$id) {
-            return $this->json(['error' => 'ID manquant dans la requête.'], 400);
-        }
-        try {
-            $collaborator = $this->collaboratorService->getById($id);
-            return $this->json(['collaborator' => $collaborator]);
-        } catch (EntityNotFoundException $e) {
-            return $this->json(['error' => $e->getMessage()], 404);
-        }
+public function collaboratorById(Request $request): JsonResponse
+{
+    $data = json_decode($request->getContent(), true);
+    $id = $data['id'] ?? null;
+
+    if (!$id) {
+        return $this->json(['error' => 'ID manquant dans la requête.'], 400);
     }
+
+    try {
+        $collaborator = $this->collaboratorService->getById($id);
+        return $this->json(['collaborator' => $collaborator]);
+    } catch (EntityNotFoundException $e) {
+        return $this->json(['error' => $e->getMessage()], 404);
+    }
+}
 
     #[Route('/collaborator/email', name: 'app_collaborator_email', methods: ['POST'])]
     public function collaboratorByEmail(Request $request): JsonResponse

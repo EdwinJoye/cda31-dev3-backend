@@ -298,6 +298,8 @@
     </service>
     <service id="App\Service\AuthService" class="App\Service\AuthService" autowire="true" autoconfigure="true">
       <argument type="service" id="App\Repository\CollaboratorRepository"/>
+      <argument type="service" id="security.token_storage"/>
+      <argument type="service" id="security.user_password_hasher"/>
     </service>
     <service id="App\Service\CollaboratorService" class="App\Service\CollaboratorService" autowire="true" autoconfigure="true">
       <argument type="service" id="App\Repository\CollaboratorRepository"/>
@@ -3536,6 +3538,20 @@
         <argument>null</argument>
       </call>
       <call method="add">
+        <argument type="service" id=".security.request_matcher.BhpRUZK"/>
+        <argument type="collection">
+          <argument>PUBLIC_ACCESS</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
+        <argument type="service" id=".security.request_matcher.7hffHUr"/>
+        <argument type="collection">
+          <argument>PUBLIC_ACCESS</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
         <argument type="service" id=".security.request_matcher.CUDSgej"/>
         <argument type="collection">
           <argument>IS_AUTHENTICATED_FULLY</argument>
@@ -4220,6 +4236,22 @@
     <service id=".security.request_matcher.1dAc.Mj" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
       <argument type="collection">
         <argument type="service" id=".security.request_matcher.CE6BPIT"/>
+      </argument>
+    </service>
+    <service id=".security.request_matcher.T8BdVIN" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/login</argument>
+    </service>
+    <service id=".security.request_matcher.BhpRUZK" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+      <argument type="collection">
+        <argument type="service" id=".security.request_matcher.T8BdVIN"/>
+      </argument>
+    </service>
+    <service id=".security.request_matcher.LORg6t3" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/register</argument>
+    </service>
+    <service id=".security.request_matcher.7hffHUr" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+      <argument type="collection">
+        <argument type="service" id=".security.request_matcher.LORg6t3"/>
       </argument>
     </service>
     <service id=".security.request_matcher.CUDSgej" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
